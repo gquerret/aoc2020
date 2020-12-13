@@ -13,12 +13,17 @@ def currTimer = System.currentTimeMillis()
 println "Initial time: ${currTimer}"
 
 def ts = firstCommonTime(busList[0], busList[1])
-def lcm12 = lcm(busList[0].num, busList[1].num)
-println "Starting point ${ts} - LCM ${lcm12}"
+def lcmX = lcm(busList[0].num, busList[1].num)
+println "Starting point ${ts} - LCM ${lcmX}"
+busList.drop(1).each { it ->
+  ts = firstCommonTime(busList[0], it, ts, lcmX)
+  lcmX = lcm(lcmX, it.num)
+  println "New starting point ${ts} - LCM ${lcmX}"
+}
 
 while (true) {
   def ok = true
-  for (int zz = 2; zz < busList.size(); zz++) {
+  for (int zz = 4; zz < busList.size(); zz++) {
     if (((ts + busList[zz].initTS) % busList[zz].num) != 0) {
       ok = false
       break
@@ -29,8 +34,8 @@ while (true) {
     println "TS!!! ${ts}"
     System.exit(0)
   }
-  ts += lcm12
-  if ((ts % 1000000000000) < lcm12) {
+  ts += lcmX
+  if ((ts % 1000000000000) < lcmX) {
     println "${System.currentTimeMillis() - currTimer} - Checkpoint ${ts}"
     currTimer = System.currentTimeMillis()
   }
@@ -51,19 +56,27 @@ class Bus {
 def long lcm(long number1, long number2) {
     if (number1 == 0 || number2 == 0)
         return 0;
-    int high = number1 > number2 ? number1 : number2;
-    int low = number1 < number2 ? number1 : number2;
-    int lcm = high;
+    long high = number1 > number2 ? number1 : number2;
+    long low = number1 < number2 ? number1 : number2;
+    long lcm = high;
     while (lcm % low != 0) {
         lcm += high;
     }
     return lcm;
 }
 
-def firstCommonTime(Bus bus1, Bus bus2) {
+def long firstCommonTime(Bus bus1, Bus bus2) {
   def ts = 150000000000 * bus1.num - bus1.initTS
   while (((ts + bus2.initTS) % bus2.num) != 0) {
     ts += bus1.num
+  }
+  return ts;
+}
+
+def long firstCommonTime(Bus bus1, Bus bus2, long minVal, long delta) {
+  def ts = minVal
+  while (((ts + bus2.initTS) % bus2.num) != 0) {
+    ts += delta
   }
   return ts;
 }
