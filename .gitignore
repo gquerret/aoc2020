@@ -2,9 +2,10 @@
 *.class
 *.interp
 *.tokens
-Day18Lexer.java
-Day18Parser.java
-Day18Listener.java
-Day18Visitor.java
-Day18BaseListener.java
-Day18BaseVisitor.java
+Day1?Lexer.java
+Day1?Parser.java
+Day1?Listener.java
+Day1?Visitor.java
+Day1?BaseListener.java
+Day1?BaseVisitor.java
+Day19.g4
