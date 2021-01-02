@@ -1,0 +1,10 @@
+.antlr
+*.class
+*.interp
+*.tokens
+Day18Lexer.java
+Day18Parser.java
+Day18Listener.java
+Day18Visitor.java
+Day18BaseListener.java
+Day18BaseVisitor.java
